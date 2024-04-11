@@ -1,0 +1,6 @@
+apiVersion: v2
+name: registry-mirrors
+description: A Helm to deploy registry mirrors
+type: application
+version: 0.1.0
+appVersion: "2"

@@ -1,0 +1,4 @@
+Mirror deployed:
+{{- range .Values.mirrors }}
+- {{ .name }} ({{ .remoteUrl }}): https://mirror-{{ .name | replace "." "-" }}.{{ $.Values.ingress.suffix }}
+{{- end }}

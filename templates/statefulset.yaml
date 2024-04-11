@@ -1,0 +1,59 @@
+{{- range .Values.mirrors }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mirror-{{ .name | replace "." "-" }}
+spec:
+  replicas: 1
+  serviceName: mirror-{{ .name | replace "." "-" }}
+  selector:
+    matchLabels:
+      mirror-name: {{ .name | replace "." "-" }}
+  template:
+    metadata:
+      labels:
+        mirror-name: {{ .name | replace "." "-" }}
+    spec:
+      containers:
+      - name: registry
+        image: registry:2
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "50Mi"
+            cpu: "10m"
+          requests:
+            memory: "50Mi"
+            cpu: "10m"
+        env:
+          - name: REGISTRY_PROXY_REMOTEURL
+            value: {{ .remoteUrl }}
+          - name: REGISTRY_PROXY_TTL
+            value: "168h"
+          - name: REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY
+            value: /data/
+          - name: REGISTRY_DELETE_ENABLED
+            value: "true"
+        ports:
+          - name: registry
+            containerPort: 5000
+
+        volumeMounts:
+          - name: data
+            mountPath: /data/
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 20G
+---
+{{- end }}

@@ -1,0 +1,16 @@
+mirrors:
+- name: docker.io
+  remoteUrl: https://registry-1.docker.io
+- name: quay.io
+  remoteUrl: https://quay.io
+- name: gcr.io
+  remoteUrl: https://gcr.io
+- name: ghcr.io
+  remoteUrl: https://ghcr.io
+- name: public.ecr.aws
+  remoteUrl: https://public.ecr.aws
+
+ingress:
+  suffix: example.org
+  className: ""
+  annotations: {}
