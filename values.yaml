@@ -1,14 +1,29 @@
 mirrors:
 - name: docker.io
   remoteUrl: https://registry-1.docker.io
+
 - name: quay.io
   remoteUrl: https://quay.io
+
 - name: gcr.io
   remoteUrl: https://gcr.io
+
 - name: ghcr.io
   remoteUrl: https://ghcr.io
+
 - name: public.ecr.aws
   remoteUrl: https://public.ecr.aws
+
+default:
+  storage:
+    size: 20G
+  resources:
+    limits:
+      memory: "500Mi"
+      cpu: "1"
+    requests:
+      memory: "50Mi"
+      cpu: "10m"
 
 ingress:
   suffix: example.org

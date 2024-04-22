@@ -18,13 +18,10 @@ spec:
       - name: registry
         image: registry:2
         imagePullPolicy: Always
+        {{- with coalesce .resources $.Values.default.resources }}
         resources:
-          limits:
-            memory: "50Mi"
-            cpu: "10m"
-          requests:
-            memory: "50Mi"
-            cpu: "10m"
+          {{- toYaml . | nindent 12 }}
+        {{- end }}
         env:
           - name: REGISTRY_PROXY_REMOTEURL
             value: {{ .remoteUrl }}
@@ -54,6 +51,6 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 20G
+            storage: {{ (coalesce .storage $.Values.default.storage).size }}
 ---
 {{- end }}
